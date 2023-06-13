@@ -1,9 +1,14 @@
+import axios from 'axios';
 import { NextPage } from 'next';
+import { signIn } from 'next-auth/react';
 import { useCallback, useState } from 'react';
 
 import { Input } from '@/components/Input';
+import { useRouter } from 'next/router';
 
 const Auth: NextPage = () => {
+  const router = useRouter();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,6 +18,31 @@ const Auth: NextPage = () => {
   const modeToggler = useCallback(() => {
     setMode((prevMode) => (prevMode === 'login' ? 'register' : 'login'));
   }, []);
+
+  const loginHandler = useCallback(async () => {
+    try {
+      await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: '/',
+      });
+
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password, router]);
+
+  const registerHandler = useCallback(async () => {
+    try {
+      await axios.post('/api/register', { name, email, password });
+
+      loginHandler();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [name, email, password, loginHandler]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-cover bg-fixed bg-center bg-no-repeat">
@@ -51,7 +81,10 @@ const Auth: NextPage = () => {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </div>
-            <button className="mt-10 w-full rounded-md bg-red-600 py-3 text-white transition hover:bg-red-700">
+            <button
+              onClick={mode === 'login' ? loginHandler : registerHandler}
+              className="mt-10 w-full rounded-md bg-red-600 py-3 text-white transition hover:bg-red-700"
+            >
               {mode === 'login' ? 'Login' : 'Sign up'}
             </button>
             <p className="mt-12 text-neutral-500">

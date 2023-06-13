@@ -67,7 +67,7 @@ const Profiles: NextPage = () => {
         <h1 className="text-center text-3xl text-white md:text-6xl">Who is watching?</h1>
         <div className="mt-10 flex items-center justify-center gap-8">
           <div onClick={() => selectProfile()}>
-            <UserCard name={currentUser?.name} />
+            <UserCard name={currentUser!.name} />
           </div>
         </div>
       </div>

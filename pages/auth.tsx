@@ -2,6 +2,8 @@ import axios from 'axios';
 import { NextPage } from 'next';
 import { signIn } from 'next-auth/react';
 import { useCallback, useState } from 'react';
+import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 
 import { Input } from '@/components/Input';
 import { useRouter } from 'next/router';
@@ -87,6 +89,20 @@ const Auth: NextPage = () => {
             >
               {mode === 'login' ? 'Login' : 'Sign up'}
             </button>
+            <div className="mt-8 flex flex-row items-center justify-center gap-4">
+              <div
+                onClick={() => signIn('google', { callbackUrl: '/' })}
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white transition hover:opacity-80"
+              >
+                <FcGoogle size={32} />
+              </div>
+              <div
+                onClick={() => signIn('github', { callbackUrl: '/' })}
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white transition hover:opacity-80"
+              >
+                <FaGithub size={32} />
+              </div>
+            </div>
             <p className="mt-12 text-neutral-500">
               {mode === 'login'
                 ? 'First time using Netflix? '

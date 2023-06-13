@@ -2,7 +2,7 @@ import { prismadb } from '@/libs/prismadb';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+const register = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method !== 'POST') {
       return res.status(405).end();
@@ -36,4 +36,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (error) {
     return res.status(400).json({ error: `Something went wrong: ${error}` });
   }
-}
+};
+
+export default register;

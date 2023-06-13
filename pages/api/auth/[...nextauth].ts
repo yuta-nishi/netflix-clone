@@ -7,7 +7,7 @@ import GoogleProvider from 'next-auth/providers/google';
 
 import { prismadb } from '@/libs/prismadb';
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID || '',

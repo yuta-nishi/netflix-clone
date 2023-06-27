@@ -1,7 +1,7 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 import { useBillboard } from '@/hooks/useBillboard';
-import { PlayButton } from './PlayButton';
+import { PlayButton } from '../UI/PlayButton';
 
 export const Billboard: React.FC = () => {
   const { data } = useBillboard();

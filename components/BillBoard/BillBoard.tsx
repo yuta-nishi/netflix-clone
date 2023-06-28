@@ -5,7 +5,6 @@ import { PlayButton } from '../UI/PlayButton';
 
 export const Billboard: React.FC = () => {
   const { data } = useBillboard();
-  console.log(data);
 
   return (
     <div className="relative h-[56.25vw]">

@@ -2,6 +2,7 @@ import { NextPage, NextPageContext } from 'next';
 import { getSession } from 'next-auth/react';
 
 import { Billboard } from '@/components/BillBoard/BillBoard';
+import { InfoModal } from '@/components/InfoModal/InfoModal';
 import { MovieList } from '@/components/Movie/MovieList';
 import { Navbar } from '@/components/Navbar/Navbar';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -32,6 +33,7 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <InfoModal onClose={closeModal} visible={isOpen} />
       <Navbar />
       <Billboard />
       <div className="pb-40">

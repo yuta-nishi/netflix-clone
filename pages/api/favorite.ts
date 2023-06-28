@@ -36,17 +36,20 @@ const favorite = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'DELETE') {
       const { currentUser } = await serverAuth(req, res);
 
-      const { movieId } = req.body;
+      const { movieId } = req.query as { movieId: string };
 
       const existingMovie = await prismadb.movie.findUnique({
-        where: { id: movieId },
+        where: {
+          id: movieId,
+        },
       });
 
       if (!existingMovie) {
-        throw new Error('Movie not found');
+        throw new Error('Invalid ID');
       }
 
       const updatedFavoriteIds = without(currentUser.favoriteIds, movieId);
+
       const updatedUser = await prismadb.user.update({
         where: {
           email: currentUser.email || '',

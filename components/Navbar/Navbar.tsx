@@ -18,7 +18,6 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const scrollHandler = () => {
-      console.log(window.scrollY);
       if (window.scrollY >= TOP_OFFSET) {
         setShowBackground(true);
       } else {

@@ -1,16 +1,17 @@
 import { CheckIcon, PlusIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useFavorites } from '@/hooks/useFavorites';
 
-interface Props {
+interface FavoriteButtonProps {
   movieId: string;
 }
 
-export const FavoriteButton: React.FC<Props> = ({ movieId }) => {
+export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {
   const { mutate: mutateFavorites } = useFavorites();
+
   const { data: currentUser, mutate } = useCurrentUser();
 
   const isFavorite = useMemo(() => {
@@ -23,14 +24,17 @@ export const FavoriteButton: React.FC<Props> = ({ movieId }) => {
     let response;
 
     if (isFavorite) {
-      response = await axios.delete('/api/favorite', { data: { movieId } });
+      response = await axios.delete(`/api/favorite?movieId=${movieId}`);
     } else {
       response = await axios.post('/api/favorite', { movieId });
     }
 
-    const updateFavoriteIds = response.data.favoriteIds;
+    const updatedFavoriteIds = response?.data?.favoriteIds;
 
-    mutate({ ...currentUser, favoriteIds: updateFavoriteIds });
+    mutate({
+      ...currentUser,
+      favoriteIds: updatedFavoriteIds,
+    });
     mutateFavorites();
   }, [movieId, isFavorite, currentUser, mutate, mutateFavorites]);
 
